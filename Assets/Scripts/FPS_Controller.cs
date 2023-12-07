@@ -6,12 +6,14 @@ public class FPS_Controller : MonoBehaviour
 {
     [Header("Movement Settings")]
     [SerializeField] private float walkSpeed = 3.0f;
+    [SerializeField] private float runSpeed = 5.0f;
     [SerializeField] private float jumpSpeed = 2.0f;
     [SerializeField] private float gravity = 10.0f;
 
     [Header("Look Settings")]
     [SerializeField] private float mouseSensitivity = 2.0f;
     [SerializeField] private float upDownLimit = 65f;
+
 
 
     private float verticalRotation;
@@ -44,7 +46,8 @@ public class FPS_Controller : MonoBehaviour
         characterController.Move(currentMovement * Time.deltaTime);
 
 
-        HandleMovement();
+
+            HandleMovement();
 
             HandleLook();
 
@@ -52,12 +55,25 @@ public class FPS_Controller : MonoBehaviour
 
         void HandleMovement()
         {
-            Vector3 horizontalMovement = new Vector3(Input.GetAxis("Horizontal"), 0f, Input.GetAxis("Vertical"));
+            float currentSpeed = walkSpeed;
+
+
+            if (Input.GetKey(KeyCode.LeftShift))
+            {
+                currentSpeed = runSpeed;
+            }
+            else
+            {
+                currentSpeed = walkSpeed;
+            }
+
+
+        Vector3 horizontalMovement = new Vector3(Input.GetAxis("Horizontal"), 0f, Input.GetAxis("Vertical"));
 
             horizontalMovement = transform.rotation * horizontalMovement;
 
-            currentMovement.x = horizontalMovement.x * walkSpeed;
-            currentMovement.z = horizontalMovement.z * walkSpeed;
+            currentMovement.x = horizontalMovement.x * currentSpeed;
+            currentMovement.z = horizontalMovement.z * currentSpeed;
 
 
 
