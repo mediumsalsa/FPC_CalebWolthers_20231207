@@ -6,6 +6,8 @@ public class FPS_Controller : MonoBehaviour
 {
     [Header("Movement Settings")]
     [SerializeField] private float walkSpeed = 3.0f;
+    [SerializeField] private float jumpSpeed = 2.0f;
+    [SerializeField] private float gravity = 10.0f;
 
     [Header("Look Settings")]
     [SerializeField] private float mouseSensitivity = 2.0f;
@@ -34,8 +36,15 @@ public class FPS_Controller : MonoBehaviour
 
         void Update()
         {
+        if (characterController.isGrounded && Input.GetButton("Jump"))
+        {
+            currentMovement.y = jumpSpeed;
+        }
+        currentMovement.y -= gravity * Time.deltaTime;
+        characterController.Move(currentMovement * Time.deltaTime);
 
-            HandleMovement();
+
+        HandleMovement();
 
             HandleLook();
 
